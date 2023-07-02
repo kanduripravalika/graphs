@@ -1,0 +1,32 @@
+class Graph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+        self.adj_list = [[] for _ in range(vertices)]
+    def add_edge(self, u, v):
+        self.adj_list[u].append(v)
+        self.adj_list[v].append(u)
+    def count_trees_in_forest(self):
+        visited = [False] * self.vertices
+        tree_count = 0
+        for v in range(self.vertices):
+            if not visited[v]:
+                self._dfs(v, visited)
+                tree_count += 1
+        return tree_count
+    def _dfs(self, v, visited):
+        visited[v] = True
+        for neighbor in self.adj_list[v]:
+            if not visited[neighbor]:
+                self._dfs(neighbor, visited)
+forest = Graph(7)
+forest.add_edge(0, 1)
+forest.add_edge(0, 2)
+forest.add_edge(3, 4)
+forest.add_edge(4, 5)
+forest.add_edge(6, 6)
+tree_count = forest.count_trees_in_forest()
+print("Number of trees in the forest:", tree_count)
+
+excepted output:
+
+Number of trees in the forest: 3
