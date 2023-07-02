@@ -1,0 +1,29 @@
+from collections import deque
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.children = []
+def count_nodes_at_level(root, target_level):
+    if root is None:
+        return 0
+    queue = deque([(root, 0)]) 
+    count = 0
+    while queue:
+        node, level = queue.popleft()
+        if level == target_level:
+            count += 1
+        for child in node.children:
+            queue.append((child, level + 1))
+    return count
+root = Node(1)
+root.children = [Node(2), Node(3), Node(4)]
+root.children[0].children = [Node(5), Node(6)]
+root.children[1].children = [Node(7), Node(8), Node(9)]
+root.children[2].children = [Node(10)]
+target_level = 1
+node_count = count_nodes_at_level(root, target_level)
+print("Number of nodes at level", target_level, ":", node_count)
+
+excepted output:
+
+Number of nodes at level 1 : 3
